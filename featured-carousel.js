@@ -102,9 +102,7 @@
         });
         window.addEventListener('mouseup', () => {
             isDragging = false;
-            playing = false;
-            // 慣性繼續滑動
-            setTimeout(() => playing = true, 1800);
+            playing = true; // 立刻恢復自動滾動
         });
         track.addEventListener('mousemove', e => {
             if (isDragging) {
@@ -124,8 +122,7 @@
         });
         track.addEventListener('touchend', () => {
             isDragging = false;
-            playing = false;
-            setTimeout(() => playing = true, 1800);
+            playing = true; // 立刻恢復自動滾動
         });
         track.addEventListener('touchmove', e => {
             if (isDragging) {

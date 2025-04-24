@@ -1,0 +1,17 @@
+.typing-effect {
+  color: #111 !important;
+  display: inline-block;
+  position: relative;
+}
+.typing-effect::after {
+  content: '|';
+  display: inline-block;
+  margin-left: 2px;
+  color: #111;
+  font-weight: bold;
+  animation: blink-cursor 0.7s steps(1) infinite;
+}
+@keyframes blink-cursor {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}

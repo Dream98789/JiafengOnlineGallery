@@ -293,11 +293,17 @@ images.forEach((img, idx) => {
     const div = document.createElement('div');
     div.className = 'artwork';
     div.innerHTML = `
-        <button class="learn-more-btn">了解更多</button>
-        <img src="${img.src}" alt="${img.title}">
-        <div class="artwork-title">${img.title}</div>
-        <div class="artwork-desc">${img.title === '自然連結' ? '樹斷鐵絲連結仿生手工茶壺，樹枝與鐵絲相互糾纏，質樸中透露生命的堅韌。手工巧匠以獨特方式呈現自然之力與人力間的連結。' : (img.desc || '')}</div>
-    `;
+        <div class="artwork-imgbox">
+          <img src="${img.src}" alt="${img.title}">
+          <button class="learn-more-btn">了解更多</button>
+        </div>
+        <div class="artwork-info">
+          <div class="artwork-label">${img.year || ''}</div>
+          <div class="artwork-title">${img.title}</div>
+          <div class="artwork-desc">${img.title === '自然連結' ? '樹斷鐵絲連結仿生手工茶壺，樹枝與鐵絲相互糾纏，質樸中透露生命的堅韌。手工巧匠以獨特方式呈現自然之力與人力間的連結。' : (img.desc || '')}</div>
+        </div>
+
+      `;
         // 每個藝術品都加彈窗功能
     const learnMoreBtn = div.querySelector('.learn-more-btn');
     learnMoreBtn.addEventListener('click', () => {
@@ -358,6 +364,7 @@ images.forEach((img, idx) => {
             modal.remove();
         };
     });  
+
     gallery.appendChild(div);
 });
 // 讓 cart.js 能正確取得商品資料

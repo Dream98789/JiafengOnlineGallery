@@ -22,6 +22,12 @@ function generateArtworkList() {
         `;
         gallery.appendChild(artworkElement);
     });
+    // 生成後觸發fade-in
+    if (window.fadeInArtworkObserver) {
+      document.querySelectorAll('.artwork').forEach(card => {
+        window.fadeInArtworkObserver.observe(card);
+      });
+    }
 }
 
 // 初始化

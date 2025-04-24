@@ -1,0 +1,24 @@
+.artwork {
+    opacity: 1;
+    /* 外框不做總淡入，由內部子項控制 */
+}
+
+.artwork img,
+.artwork .artwork-info {
+    opacity: 0;
+    transform: translateY(60px);
+    transition: opacity 1.6s cubic-bezier(.4,0,.2,1), transform 1.6s cubic-bezier(.4,0,.2,1);
+}
+
+.artwork.visible img {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.1s;
+}
+
+.artwork.visible .artwork-info {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.7s;
+}
+
