@@ -113,37 +113,47 @@
             }
         });
         track.addEventListener('click', e => playing = false);
-        // 觸控事件
-        track.addEventListener('touchstart', e => {
-            isDragging = true;
-            lastX = e.touches[0].pageX;
-            velocity = 0;
-            playing = false;
-        });
-        track.addEventListener('touchend', () => {
-            isDragging = false;
-            playing = true; // 立刻恢復自動滾動
-        });
-        track.addEventListener('touchmove', e => {
-            if (isDragging) {
-                const dx = e.touches[0].pageX - lastX;
-                track.scrollLeft -= dx;
-                velocity = dx * 0.7;
-                lastX = e.touches[0].pageX;
-            }
-        });
+        // 移除觸控事件，讓手機直接用原生橫向滑動，不用 JS 處理拖曳
 
-        // 只在頁面可見時啟動動畫
-        let pageVisible = true;
-        document.addEventListener('visibilitychange', () => {
-            pageVisible = !document.hidden;
+
+        // 移除自動輪播動畫，僅保留原生滑動
+    // 不再自動啟動 animate
+
+    // ====== 磁吸置中功能 ======
+    const frame = document.querySelector('.carousel-frame');
+    if (track && frame) {
+        let scrollTimeout = null;
+        track.addEventListener('scroll', () => {
+            if (scrollTimeout) clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                // 取得所有卡片
+                const cards = Array.from(track.querySelectorAll('.carousel-card'));
+                if (!cards.length) return;
+                // 計算中央位置（以 frame 為基準）
+                const frameRect = frame.getBoundingClientRect();
+                const frameCenter = frameRect.left + frameRect.width / 2;
+                // 找出最接近中央的卡片
+                let minDist = Infinity, targetCard = null;
+                for (const card of cards) {
+                    const cardRect = card.getBoundingClientRect();
+                    const cardCenter = cardRect.left + cardRect.width / 2;
+                    const dist = Math.abs(cardCenter - frameCenter);
+                    if (dist < minDist) {
+                        minDist = dist;
+                        targetCard = card;
+                    }
+                }
+                if (targetCard) {
+                    // 平滑滾動讓卡片中心對齊框線中心
+                    const cardRect = targetCard.getBoundingClientRect();
+                    const cardCenter = cardRect.left + cardRect.width / 2;
+                    const delta = cardCenter - frameCenter;
+                    track.scrollBy({ left: delta, behavior: 'smooth' });
+                }
+            }, 90); // 停止滑動 90ms 後觸發
         });
-        function animateIfVisible() {
-            if (pageVisible) animate();
-            else rafId = requestAnimationFrame(animateIfVisible);
-        }
-        animateIfVisible();
     }
+}
 
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', setupCarousel);
