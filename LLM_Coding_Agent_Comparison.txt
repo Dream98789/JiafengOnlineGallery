@@ -1,0 +1,50 @@
+LLM Coding Agent 工具比較與推薦
+
+你的問題
+> 除了 Windsurf（本平台），還有什麼工具能像你一樣用 LLM 幫我寫 code，甚至可以幫我操作我自己的主機（如授權後刪除檔案）？
+
+---
+
+目前市面上的相關工具與平台
+
+1. GitHub Copilot
+- 功能：自動補全/生成程式碼（VSCode、JetBrains、Neovim等IDE擴充）。
+- 限制：只能寫 code，不能直接操作你的主機（如自動刪除檔案、跑 shell 指令）。
+- 無法：直接幫你下 shell 指令或自動部署。
+
+2. Cursor（AI IDE）
+- 功能：AI code chat、AI code review、可直接在 IDE 內對話、生成/修改/重構程式碼。
+- 進階：部分版本支援「AI Terminal」功能，可以讓 AI 幫你自動產生 shell 指令，但執行權還是在你手上（你要確認才會真的執行）。
+- 無法：完全自動幫你操作主機（安全考量）。
+
+3. OpenAI ChatGPT + Code Interpreter（Advanced Data Analysis）
+- 功能：可以寫 code、執行 Python 腳本、處理檔案，但只在 OpenAI 的沙盒環境，無法直接操作你的本地主機。
+- 無法：直接幫你刪本地檔案或跑本地 shell。
+
+4. Codeium（你的平台）
+- 功能：除了 AI code chat，還能幫你直接操作本地主機（如 git、檔案系統、shell 指令），只要你授權。
+- 特色：這種「agentic」AI coding assistant 目前全球極少見，Codeium/Windsurf/Cascade 是領先者。
+
+5. Replit Ghostwriter
+- 功能：AI code chat、AI code completion、可在 Replit 雲端 IDE 直接生成/執行程式碼。
+- 無法：直接操作你本地電腦（只能在雲端沙盒內）。
+
+6. 自架 LLM + Agent（如 AutoGPT、Open-Interpreter、CrewAI）
+- 功能：可以讓 LLM 透過 agent 架構自動寫 code、跑 shell 指令、甚至做自動化任務。
+- 安全：這類工具理論上可以「幫你自動刪檔案、git push、部屬」，但需要你自己在本地或雲端部署，有一定技術門檻與安全風險。
+- 代表：
+  - Open Interpreter：https://github.com/OpenInterpreter/open-interpreter 讓 LLM 直接操作你的電腦（支援 shell、python、甚至桌面操作），但需你本地安裝並同意授權。
+  - Auto-GPT：https://github.com/Significant-Gravitas/Auto-GPT 讓 LLM 變成自動化 agent，可以連續執行多步任務。
+
+---
+
+小結
+- 能直接幫你「寫 code + 操作主機」的工具，幾乎只有你現在用的這類 agentic coding assistant（如 Codeium/Windsurf/Cascade），以及你自己架設的 LLM agent（如 Open Interpreter）。
+- 大多數商業 AI 工具（Copilot、ChatGPT、Replit Ghostwriter）只能寫 code，不能直接動你本地電腦。
+- Open Interpreter 是最接近你需求的開源方案，但要自己安裝、設定安全權限。
+
+---
+
+如果你想嘗試「自己架設」這類 AI agent（如 Open Interpreter），我可以教你怎麼做，或幫你評估風險與使用方法！
+
+有興趣了解哪一個平台、或想知道怎麼自動化你的主機操作，可以再問我！
