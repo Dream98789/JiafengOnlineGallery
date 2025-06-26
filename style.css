@@ -4317,6 +4317,45 @@ body {
     pointer-events: none;
 }
 
+/* 關於頁面 - 藝術家照片 */
+.about-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.profile-image {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto 2rem;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.profile-photo {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+/* 響應式調整 */
+@media (max-width: 768px) {
+    .profile-image {
+        max-width: 90%;
+        margin: 0 auto 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-image {
+        max-width: 100%;
+        border-radius: 8px;
+    }
+}
+
 /* 點擊效果 - 漣漪波紋 */
 .ripple {
     position: absolute;
