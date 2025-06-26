@@ -292,6 +292,7 @@ gallery.innerHTML = '';
 images.forEach((img, idx) => {
     const div = document.createElement('div');
     div.className = 'artwork';
+    div.id = `artwork-${idx}`; // 添加唯一 ID
     div.innerHTML = `
         <div class="artwork-imgbox">
           <img src="${img.src}" alt="${img.title}">

@@ -48,9 +48,11 @@
         const allData = getFeaturedData();
         const featured = getAll(allData);
         // 只渲染五個卡片，不複製
-        track.innerHTML = featured.map(item => {
-            // lazyload 圖片
-            return `<div class="carousel-card">
+        track.innerHTML = featured.map((item, index) => {
+            // 為每個作品創建唯一ID
+            const itemId = `artwork-${index}`;
+            // 添加 data-id 屬性用於滾動定位
+            return `<div class="carousel-card" data-id="${itemId}" style="cursor: pointer;">
 <img src="${item.src}" alt="${item.title}" class="carousel-img" loading="lazy">
 <div class="carousel-info">
 <div class="carousel-title">${item.title}</div>
@@ -62,6 +64,71 @@
         // 只抓一次卡片寬度
         const firstCard = track.querySelector('.carousel-card');
         if (firstCard) cardWidth = firstCard.offsetWidth + 22; // gap
+
+        // 創建漣漪效果
+        function createRipple(event) {
+            const card = event.currentTarget;
+            const rect = card.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            
+            const ripple = document.createElement('span');
+            ripple.className = 'ripple';
+            ripple.style.width = ripple.style.height = `${size}px`;
+            ripple.style.left = `${event.clientX - rect.left - size/2}px`;
+            ripple.style.top = `${event.clientY - rect.top - size/2}px`;
+            
+            card.appendChild(ripple);
+            
+            // 動畫結束後移除漣漪元素
+            ripple.addEventListener('animationend', () => {
+                ripple.remove();
+            });
+        }
+
+        // 創建音效
+        const clickSound = new Audio('sounds/door-open.mp3');
+        clickSound.volume = 0.4; // 設置音量為40%
+        
+        // 點擊卡片滾動到對應作品
+        track.addEventListener('click', (e) => {
+            const card = e.target.closest('.carousel-card');
+            if (!card) return;
+            
+            // 播放點擊音效
+            clickSound.currentTime = 0; // 重設音效
+            clickSound.play().catch(e => console.log('無法播放音效:', e));
+            
+            // 添加點擊動畫效果
+            card.classList.add('click-flip');
+            
+            // 創建漣漪效果
+            createRipple(e);
+            
+            // 獲取目標作品ID
+            const artworkId = card.getAttribute('data-id');
+            
+            // 延遲執行滾動，讓動畫完成
+            setTimeout(() => {
+                const targetElement = document.getElementById(artworkId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                    
+                    // 添加高亮效果
+                    targetElement.classList.add('highlighted');
+                    setTimeout(() => {
+                        targetElement.classList.remove('highlighted');
+                    }, 2000);
+                }
+                
+                // 動畫結束後移除動畫類
+                setTimeout(() => {
+                    card.classList.remove('click-flip');
+                }, 200);
+            }, 1000); // 延遲1秒執行滾動，確保動畫完成
+        });
 
         // 輪播參數
         let speed = 0.7; // px/frame，讓滾動更細膩

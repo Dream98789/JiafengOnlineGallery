@@ -2005,6 +2005,22 @@ body {
 /* 首頁樣式 */
 
 /* 藝術家簡介樣式 */
+.carousel-card {
+    min-width: 250px;
+    max-width: 250px;
+    height: 350px;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+    cursor: pointer;
+    margin: 0 10px;
+    position: relative;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+}
+
 .profile-image {
     position: relative;
     width: 100%;
@@ -2015,15 +2031,6 @@ body {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-@media (max-width: 600px) {
-  .cart-btn {
-    padding: 0.4rem 0.8rem;
-    font-size: 0.9rem;
-  }
-  .cart-btn svg, .cart-btn i {
-    width: 16px !important;
-    height: 16px !important;
-    font-size: 1rem !important;
   }
   .cart-btn span, .cart-text {
     font-size: 0.9rem !important;
@@ -3324,7 +3331,10 @@ body {
     font-size: 2rem;
     border-bottom: 1px solid #bfa76f;
     padding-bottom: 0.5rem;
-    margin-bottom: 1.2rem;
+    margin: 0 auto 1.2rem auto;
+    text-align: center;
+    display: block;
+    width: fit-content;
 }
 
 @media (max-width: 600px) {
@@ -4229,20 +4239,129 @@ body {
     min-height: 260px;
 }
 
-.carousel-center-border {
-    display: none;
-    pointer-events: none;
+/* 移除了 .carousel-center-border 樣式 */
+
+/* 點擊過渡動畫效果 */
+.artwork {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    transform-origin: center center;
+}
+
+/* 點擊效果 - 縮放淡出 */
+.artwork.click-scale {
+    animation: scaleFade 0.5s forwards;
+}
+
+@keyframes scaleFade {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.2); opacity: 0.8; }
+    100% { transform: scale(0.8); opacity: 0; }
+}
+
+/* 點擊效果 - 縮小淡出 */
+.artwork.click-shrink {
+    animation: shrinkFade 0.5s forwards;
+}
+
+@keyframes shrinkFade {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(0.8); opacity: 0; }
+}
+
+/* 點擊效果 - 3D推倒翻轉 */
+.carousel-card {
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease;
+    transform-origin: bottom center;
+    position: relative;
+    backface-visibility: visible;
+}
+
+.carousel-card.click-flip {
+    animation: pushDownCard 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes pushDownCard {
+    0% { 
+        transform: rotateX(0) translateZ(0);
+        opacity: 1;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+    30% {
+        transform: rotateX(30deg) translateZ(30px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+    60% {
+        transform: rotateX(90deg) translateZ(60px);
+        opacity: 0.8;
+        box-shadow: 0 40px 80px rgba(0, 0, 0, 0.2);
+    }
+    100% { 
+        transform: rotateX(180deg) translateZ(0);
+        opacity: 0;
+        box-shadow: 0 50px 100px rgba(0, 0, 0, 0.1);
+    }
+}
+
+/* 確保卡片背面可見 */
+.carousel-card::after {
+    content: '';
     position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    margin: 0 auto;
-    width: 83%;
-    height: 100%;
-    border-radius: 18px;
-    border: 6px solid #111;
-    z-index: 10;
-    box-sizing: border-box;
-    animation: border-breath 2.2s ease-in-out infinite;
-    border-color: #111;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.1);
+    transform: rotateX(180deg);
+    backface-visibility: hidden;
+    pointer-events: none;
+}
+
+/* 點擊效果 - 漣漪波紋 */
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(29, 233, 182, 0.6);
+    box-shadow: 0 0 15px 5px rgba(29, 233, 182, 0.7);
+    transform: scale(0);
+    animation: ripple 0.8s ease-out;
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(0.1);
+        opacity: 0.8;
+        box-shadow: 0 0 10px 5px rgba(0, 158, 142, 0.7);
+    }
+    50% {
+        background: rgba(0, 158, 142, 0.6);
+        box-shadow: 0 0 25px 15px rgba(29, 233, 182, 0.8);
+    }
+    100% {
+        transform: scale(4);
+        opacity: 0;
+        box-shadow: 0 0 40px 20px rgba(0, 158, 142, 0);
+    }
+}
+
+/* 點擊後高亮效果 */
+.artwork.highlighted {
+    animation: highlight 2s ease-out;
+    border-radius: 8px;
+}
+
+@keyframes highlight {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 0, 60, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 20px rgba(255, 0, 60, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 0, 60, 0);
+    }
 }
 
 @media (max-width: 700px) {
